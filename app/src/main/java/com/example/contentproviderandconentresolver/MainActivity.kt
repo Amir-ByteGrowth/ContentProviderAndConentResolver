@@ -12,9 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.contentproviderandconentresolver.ui.theme.ContentProviderAndConentResolverTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 // i will use popup instead popbackstack reason if we double tap popbackstack button it will double navigate
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
