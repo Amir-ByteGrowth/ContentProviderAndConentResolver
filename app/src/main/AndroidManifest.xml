@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--    if client will have this permission it can read our notes-->
+    <permission
+        android:name="com.example.contentproviderandconentresolver.READ_NOTES"
+        android:protectionLevel="normal" />
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
@@ -24,6 +28,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name=".data.provider.NotesContentProvider"
+            android:authorities="com.example.contentproviderandconentresolver.provider"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="true"
+            android:permission="com.example.contentproviderandconentresolver.READ_NOTES"
+            android:readPermission="com.example.contentproviderandconentresolver.READ_NOTES" />
+        <!--        multi process is true becuase we are getting our data on different process-->
     </application>
 
 </manifest>
