@@ -24,7 +24,7 @@ class NotesContentProvider : ContentProvider() {
 
     companion object {
 
-        val AUTHORITY = "com.example.contentprovider.provider"
+        val AUTHORITY = "com.example.contentproviderandconentresolver.provider"
 
         // which table we want to expose or what what ever we want to expose
         val CONTENT_URI = Uri.parse("content://$AUTHORITY/$NOTES_TABLE")
