@@ -1,6 +1,5 @@
 package com.example.contentproviderandconentresolver.data.local
 
-import android.provider.ContactsContract.CommonDataKinds.Note
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -23,5 +22,8 @@ interface NotesDao {
 
     @Query("select * from notes")
     fun getAllNotes(): Flow<List<NoteEntity>>
+
+    @Query("select * from notes where id = :id")
+    suspend fun getNoteWithId(id: Int): NoteEntity
 
 }

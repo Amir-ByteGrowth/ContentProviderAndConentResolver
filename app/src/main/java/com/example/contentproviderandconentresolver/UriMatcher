@@ -1,0 +1,45 @@
+
+What is UriMatcher?
+
+UriMatcher is a utility class used to match Uri objects against specific patterns. This is commonly
+used in ContentProviders to determine what action to take based on the URI that is passed to the provider.
+
+1. UriMatcher Object Initialization
+kotlin
+Copy code
+private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
+UriMatcher(UriMatcher.NO_MATCH): This creates a new UriMatcher object. The parameter UriMatcher.NO_MATCH is a constant with a value of -1.
+It is used to indicate that no match was found. Initially, the UriMatcher is set up with no patterns, so it will return NO_MATCH if queried.
+2. apply { ... } Block
+kotlin
+Copy code
+.apply {
+    addURI(AUTHORITY, NOTES_TABLE, 1)
+    addURI(AUTHORITY, NOTES_TABLE.plus("#"), 2)
+}
+The apply block is used to configure the UriMatcher object after it's been created. It allows you to call multiple methods on the object within the block.
+3. addURI Method
+kotlin
+Copy code
+addURI(AUTHORITY, NOTES_TABLE, 1)
+addURI(AUTHORITY, NOTES_TABLE.plus("#"), 2)
+addURI(String authority, String path, int code): This method is used to add a URI pattern to the UriMatcher. It takes three arguments:
+authority: This is the authority part of the URI, which usually represents the Content Provider.
+path: This is the path part of the URI, which specifies the data you're interested in. It can be a specific table, a row, or some other resource.
+code: This is the integer code that will be returned when a URI matches this pattern. It helps identify what the URI represents.
+First addURI(AUTHORITY, NOTES_TABLE, 1):
+AUTHORITY: This is the authority string for the Content Provider (e.g., "com.example.app.provider").
+NOTES_TABLE: This is a string representing the path (e.g., "notes"). It usually corresponds to a table name in your database.
+1: The code 1 is returned when a URI with the specified authority and path (NOTES_TABLE) is matched.
+Second addURI(AUTHORITY, NOTES_TABLE.plus("#"), 2):
+NOTES_TABLE.plus("#"): This pattern includes a wildcard (#), which matches any numerical value. The # wildcard is often used to match specific rows by their ID (e.g., "notes/1" would match the row with ID 1).
+2: The code 2 is returned when a URI with the specified authority and a path matching NOTES_TABLE/ID (where ID is a number) is matched.
+Summary of the UriMatcher Configuration:
+NOTES_TABLE (e.g., "notes"): Matches the URI "content://AUTHORITY/notes" and returns the code 1.
+NOTES_TABLE.plus("#") (e.g., "notes/#"): Matches the URI "content://AUTHORITY/notes/ID" (where ID is a number) and returns the code 2.
+Example Use Case:
+Suppose you have a ContentProvider for notes. You might define URIs like:
+
+content://com.example.app.provider/notes to represent all notes.
+content://com.example.app.provider/notes/1 to represent a specific note with ID 1.
+With this UriMatcher, when you receive a URI, you can easily determine whether it corresponds to the entire table or a specific row, and handle the query, update, or delete operation accordingly.
