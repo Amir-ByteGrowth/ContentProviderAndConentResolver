@@ -106,6 +106,9 @@ class NotesContentProvider : ContentProvider() {
             desc = values?.getAsString("desc").orEmpty()
         )
         val id = runBlocking(Dispatchers.IO) { notesDao.insert(noteEntity = entity) }
+
+        // to notify any changes
+        context?.contentResolver?.notifyChange(CONTENT_URI, null)
         return ContentUris.withAppendedId(CONTENT_URI, id)
     }
 
@@ -113,7 +116,8 @@ class NotesContentProvider : ContentProvider() {
         val id = ContentUris.parseId(uri).toInt()
         val entity = runBlocking(Dispatchers.IO) { notesDao.getNoteWithId(id) }
         val idDeletedRow = runBlocking(Dispatchers.IO) { notesDao.delete(entity) }
-
+        // to notify any changes
+        context?.contentResolver?.notifyChange(CONTENT_URI, null)
         return idDeletedRow
     }
 
@@ -135,6 +139,9 @@ class NotesContentProvider : ContentProvider() {
         val idUpdatedEntity = runBlocking(Dispatchers.IO) {
             notesDao.update(updatedEntity)
         }
-        return id
+// to notify any changes
+        context?.contentResolver?.notifyChange(CONTENT_URI, null)
+
+        return idUpdatedEntity
     }
 }
